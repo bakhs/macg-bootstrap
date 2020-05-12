@@ -213,6 +213,16 @@ body {
 	padding-left: 15px;
 }
 
+.icon-button .la-google-plus-g:before, .icon-button .la-facebook-f:before {
+    font-size: 24px;
+}
+
+.icon-button {
+	border-radius: 45%;
+	height: 48px;
+	width: 48px;
+}
+
 /* Responsive */
 @media screen and (max-width: 991px) {
 	.form-v7-content {
