@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import auth, credentials
 
+from cryptography.fernet import Fernet
 from flask import Flask, redirect, url_for, session, request
 from flask import render_template
 
@@ -11,23 +12,27 @@ app = Flask(__name__,
             static_folder='web/static',
             template_folder='web/templates')
 
+app.secret_key = Fernet.generate_key()
 
 @app.route('/')
 def index():
     """
-    If the user is already signed in, then
-    redirect user to the profile page
-
-    If not, redirect user to the sign in page
+    If the user is already signed in, then redirect user to
+    the profile page. If not, redirect user to the sign in page
     """
-    page = 'login' if not session['user'] else 'profile'
+    page = 'login' if 'user' not in session else 'profile'
     return redirect(url_for(page))
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    user = session['user'] if 'user' in session else None
     if request.method == 'GET':
-        return render_template('index.html')
+        print(session)
+        if user:
+            return redirect(url_for('index'))
+        else:
+            return render_template('index.html')
     if request.method == 'POST':
         data = request.json
         print(data["user"])
@@ -47,8 +52,7 @@ def profile():
 
 @app.route('/logout')
 def logout():
-    # TODO: Find better way to logout a user
-    session['user'] = None
+    session.pop('user', None)
     return render_template('logout.html')
 
 
