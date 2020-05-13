@@ -1,6 +1,3 @@
-import firebase_admin
-from firebase_admin import auth, credentials
-
 from cryptography.fernet import Fernet
 from flask import Flask, redirect, url_for, session, request
 from flask import render_template
