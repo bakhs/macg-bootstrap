@@ -15,12 +15,18 @@ const facebook = new firebase.auth.FacebookAuthProvider();
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
+
 // Expose firebase methods
 var auth = firebase.auth();
 var firestore = firebase.firestore();
-var signInWithGoogle = (errorFn = null) => {
-    auth.signInWithPopup(google).catch((error) => errorFn(error));
+var signInWithGoogle = (successFn, errorFn) => {
+    auth.signInWithPopup(google)
+        .then((confirmationResult) => successFn(confirmationResult))
+        .catch((error) => errorFn(error));
 };
-var signInWithFacebook = (errorFn = null) => {
-    auth.signInWithPopup(facebook).catch((error) => errorFn(error));
+var signInWithFacebook = (successFn, errorFn = null) => {
+    auth.signInWithPopup(facebook)
+        .then((confirmationResult) => successFn(confirmationResult))
+        .catch((error) => errorFn(error));
 };

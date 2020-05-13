@@ -70,15 +70,31 @@
 		// Called when user signs in using social buttons
 		$(".icon-button.google").click((event) => {
 			event.preventDefault();
-			signInWithGoogle((error) => {
+			signInWithGoogle((userInfo) => {
+				$.ajax({
+					url: '/login',
+					type: "POST",
+					data: JSON.stringify(userInfo),
+					contentType: "application/json; charset=utf-8",
+					success: () => { location.reload(); }
+				});
+			}, (error) => {
 				alert(error.message);
-			})
+			});
 		});
 		$(".icon-button.facebook").click((event) => {
 			event.preventDefault();
-			signInWithFacebook((error) => {
+			signInWithFacebook((userInfo) => {
+				$.ajax({
+					url: '/login',
+					type: "POST",
+					data: JSON.stringify(userInfo),
+					contentType: "application/json; charset=utf-8",
+					success: () => { location.reload(); }
+				});
+			}, (error) => {
 				alert(error.message);
-			})
+			});
 		});
 
 		// just for the demos, avoids form submit
